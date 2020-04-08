@@ -1,5 +1,7 @@
 package com.bookswapping.library.repository;
 
+import com.bookswapping.library.domain.Book;
+import com.bookswapping.library.domain.Library;
 import com.bookswapping.library.domain.User;
 import org.junit.Assert;
 import org.junit.Test;
@@ -34,5 +36,44 @@ public class UserRepositoryTestSuite {
         userRepository.deleteById(id);
     }
 
+    @Test
+    public void shouldCrateUserWithLibrary() {
+        //Given
+        User user1 = new User();
+        Library library = new Library();
+        user1.setLibrary(library);
 
+        //When
+        int sizeBefore = userRepository.findAll().size();
+        userRepository.save(user1);
+        Long userId1 = user1.getId();
+        int sizeAfter = userRepository.findAll().size();
+
+
+        //Then
+        Assert.assertNotEquals(sizeBefore, sizeAfter);
+
+        //CleaunUp
+        userRepository.deleteById(userId1);
+    }
+
+    @Test
+    public void shouldCreateUserWithFullLibrary() {
+        //Given
+        User user = new User();
+        Library library = new Library();
+        Book book1 = new Book();
+        Book book2 = new Book();
+        Book book3 = new Book();
+
+        //When
+        library.getBooks().add(book1);
+        library.getBooks().add(book2);
+        library.getBooks().add(book3);
+        user.setLibrary(library);
+        int librarySize = user.getLibrary().getBooks().size();
+
+        //Then
+        Assert.assertEquals(3, librarySize);
+    }
 }

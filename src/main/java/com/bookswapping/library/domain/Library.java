@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "LIBRARIES")
@@ -14,21 +16,15 @@ import java.util.List;
 public class Library {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "LIBRARY_ID")
+    @Basic(optional = false)
+    @Column(name = "id",unique=true, nullable = false)
     private Long id;
 
     @OneToMany(
             targetEntity = Book.class,
-            mappedBy = "LIBRARIES",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
-    )
-    private List<Book> bookList;
-
-    @OneToOne(
-            targetEntity = User.class,
+            mappedBy = "library",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private User user;
+    private List<Book> books = new ArrayList<>();
 }
