@@ -21,7 +21,7 @@ public class BookMapper {
         );
     }
 
-    public Book mapToBok(final BookDto bookDto) {
+    public Book mapToBook(final BookDto bookDto) {
         return new Book(
                 bookDto.getId(),
                 bookDto.getTitle(),
